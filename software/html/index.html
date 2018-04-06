@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>WebSocket counter demo</title>
+  </head>
+  <body>
+<script>
+socket= new WebSocket('ws://localhost:8080/count');
+socket.onopen= function() {
+    socket.send('hello');
+};
+socket.onmessage= function(s) {
+    alert('got reply '+s);
+};
+</script>
+  <h1 style="top: 40%; align: center;">Likes: <span id=""></span></h1>
+  </body>
+</html>
+
