@@ -1,21 +1,28 @@
 #!/usr/bin/env python3
 
 from webserver import LikesServer
+from threading import Thread
+from gpiointerface import GPIOInterface
+import asyncio
+
 
 class LikesBox:
   def __init__(self):
-    self.webserver = WebServer()
+    self.loop = asyncio.get_event_loop()
 
-    server = LikesServer()
-    httpd_thread = Thread(target = server.start_web_server)
+    self.webserver = LikesServer(self.loop)
+    httpd_thread = Thread(target = self.webserver.start_web_server)
     httpd_thread.start()
 
-    server.start_websocket()
+#    self.webserver.start_websocket()
     
-    print( "Websocket server closed" )
+    gpio = GPIOInterface(self.loop)
 
-    httpd_thread.join()
-    print( "Web HTTP server closed" )
+  def start(self):
+    self.loop.run_forever()
+    self.loop.close()
 
 if __name__ == "__main__":
     likesBox = LikesBox();
+    likesBox.start()
+    likesBox.webserver.join()
