@@ -1,18 +1,157 @@
-<html>
-  <head>
-    <title>WebSocket counter demo</title>
-  </head>
-  <body>
-<script>
-socket= new WebSocket('ws://localhost:8080/count');
-socket.onopen= function() {
-    socket.send('hello');
-};
-socket.onmessage= function(s) {
-    alert('got reply '+s);
-};
-</script>
-  <h1 style="top: 40%; align: center;">Likes: <span id=""></span></h1>
-  </body>
-</html>
+<!DOCTYPE html>
+<html><head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="utf-8">
+  <title>The Fakebook</title>
+  <meta name="generator" content="Google Web Designer 3.0.1.0319">
+  <meta name="viewport" content="width=device-width, initial-scale=140.0">
+  <style type="text/css" id="gwd-text-style">p {
+    margin: 0px;
+}
+h1 {
+    margin: 0px;
+}
+h2 {
+    margin: 0px;
+}
+h3 {
+    margin: 0px;
+}</style>
+  <style type="text/css">html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+body {
+    background-color: rgb(233, 235, 238);
+    transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    -moz-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    perspective: 1400px;
+    -webkit-perspective: 1400px;
+    -moz-perspective: 1400px;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+}
+.gwd-div-s2fu {
+    position: absolute;
+    left: 0px;
+    background-image: none;
+    top: 0px;
+    width: 100%;
+    height: 38.48px;
+    background-color: rgb(64, 101, 180);
+}
+.gwd-img-1y84 {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    left: 148px;
+    top: 6px;
+}
+.gwd-div-1a02 {
+    position: absolute;
+    background-image: none;
+    background-color: rgb(252, 253, 255);
+    border-image-source: none;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    border-color: transparent;
+    height: 25px;
+    width: 251.32px;
+    left: 179px;
+    top: 6px;
+}
+.gwd-img-1fh0 {
+    position: absolute;
+    height: 25px;
+    width: 44.75px;
+    left: 386px;
+    top: 6px;
+}
+.gwd-img-k73k {
+    position: absolute;
+    width: 360px;
+    height: 27.56px;
+    top: 4px;
+    left: 467px;
+}
+.gwd-img-xmkq {
+    position: absolute;
+    width: 100px;
+    height: 316.67px;
+    top: 39px;
+    left: 140px;
+}
+.gwd-img-pw1z {
+    position: absolute;
+    top: 39px;
+    left: 262px;
+    width: 565px;
+    height: 212.15px;
+}
+.gwd-img-2abx {
+    position: absolute;
+    width: 400px;
+    height: 96.47px;
+    top: 252px;
+    left: 257px;
+}
+.gwd-img-1nyn {
+    position: absolute;
+    width: 150px;
+    height: 109.22px;
+    left: 680px;
+    top: 256px;
+}
+.gwd-img-1210 {
+    position: absolute;
+    width: 399px;
+    height: 758.76px;
+    left: 256px;
+    top: 348px;
+}
+#div-counter-id {
+    position: absolute;
+    left: 295px;
+    top: 1013px;
+    background: #f2f3f5;
+    color: darkblue;
+    font-size: x-small;
+    font-family: "Segoe UI", Tahoma, "Lucida Grande", Verdana, sans-serif;
+    font-weight: bold;
+}</style>
+</head>
 
+<body class="htmlNoPages">
+  <div class="gwd-div-s2fu"></div>
+  <img src="facebook-logo-png-2332.png" class="gwd-img-1y84">
+  <div class="gwd-div-1a02"></div>
+  <img src="loupe_fb.png" class="gwd-img-1fh0">
+  <img src="bandeau_fb.png" class="gwd-img-k73k">
+  <img src="bandeau_gauche.png" class="gwd-img-xmkq">
+  <script type="text/html" gwd-supported-sizes="">{ "supportedSizes": { "default": { "sizeRanges": [{ "minWidth": 0, "minHeight": 0, "maxWidth": 999999, "maxHeight": 999999, "presetName": "unbounded" }] } } }
+  </script>
+  <img src="bandeau_pano_ok.png" class="gwd-img-pw1z">
+  <img src="statut_ok.png" class="gwd-img-2abx">
+  <img src="bandeau_droit_ok.png" class="gwd-img-1nyn">
+  <img src="article_seul.png" class="gwd-img-1210">
+  <div id="div-counter-id">0</div>
+  <script>
+websocket_server = "ws://" + window.location.hostname + ":5678/";
+console.log( "Server address: "+ websocket_server );
+
+var ws = new WebSocket(websocket_server);
+
+ws.onmessage = function (event) {
+    console.log( "New counter value = "+ event.data );
+    var counter = document.getElementById('div-counter-id')
+    counter.innerHTML = event.data;
+};
+  </script>
+</body></html>
