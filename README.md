@@ -14,14 +14,3 @@ Le festival est organisé par [l'association Le Cercle](http://associationlecerc
 
 La base matérielle de la *Likes Box* utilise une Rapsberry Pi, connectée à un bouton. Le logiciel associé est écrit en Python.
 
-STEPS:
-
-1. Setup websocket server.
-   CA: make the first exchange with the (static) page
-2. Setup web server.
-   CA: load the page from the browser
-3. Add the mechanics for updating the counter, saving and loading the state at startup
-   CA: test: start the program, and update the counter on the webpage
-4. Add the GPIO mechanics through callback, check if an emulator exists for testing the code
-   CA: test the whole program, if possible
-5. Add a statistics module?
